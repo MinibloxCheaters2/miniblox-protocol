@@ -7,4 +7,5 @@ export default defineConfig({
   target: "esnext",
   cjsDefault: false, // no. CommonJS is trash, grow up.
   hash: false,
+  minify: true,
 }) satisfies UserConfig as UserConfig;
