@@ -1,0 +1,43 @@
+syntax = "proto2";
+
+enum Equipment_Slot {
+	UNDEFINED_SLOT = 0;
+	MAIN_HAND = 1;
+	OFF_HAND = 2;
+	HELMET = 3;
+	CHESTPLATE = 4;
+	LEGGINGS = 5;
+	BOOTS = 6;
+}
+
+enum PBAction {
+	START_DESTROY_BLOCK = 0;
+	ABORT_DESTROY_BLOCK = 1;
+	STOP_DESTROY_BLOCK = 2;
+	DROP_ALL_ITEMS = 3;
+	DROP_ITEM = 4;
+	RELEASE_USE_ITEM = 5;
+}
+
+enum PBEnumFacing {
+	UNDEFINED_FACE = 0;
+	DOWN = 1;
+	UP = 2;
+	NORTH = 3;
+	SOUTH = 4;
+	WEST = 5;
+	EAST = 6;
+}
+
+enum SPacketUseEntity_Action {
+	INTERACT = 0;
+	ATTACK = 1;
+	INTERACT_AT = 2;
+}
+
+enum CPacketLocalStorage_Action {
+	DEFAULT = 0;
+	REMOVE = 1;
+	SET = 2;
+}
+

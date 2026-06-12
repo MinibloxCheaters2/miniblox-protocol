@@ -1,0 +1,778 @@
+syntax = "proto2";
+import "common.proto";
+import "protocol3.proto";
+
+message CPacketAnimation {
+	required uint32 id = 1;
+	required uint32 type = 2;
+}
+
+message PBBlockPos {
+	required sint32 x = 1;
+	required sint32 y = 2;
+	required sint32 z = 3;
+}
+
+message CPacketBlockAction {
+	required PBBlockPos blockPos = 1;
+	required sint32 instrument = 2;
+	required sint32 pitch = 3;
+	required uint32 blockId = 4;
+}
+
+message CPacketBlockUpdate {
+	required uint32 id = 1;
+	required sint32 x = 2;
+	required sint32 y = 3;
+	required sint32 z = 4;
+	optional bool prerender = 5;
+}
+
+message CPacketChangeServers {
+	required string url = 1;
+}
+
+message CPacketCloseWindow {
+	required uint32 windowId = 1;
+}
+
+message CPacketConfirmTransaction {
+	required int32 windowId = 1;
+	required int32 uid = 2;
+	required bool accepted = 3;
+}
+
+message CPacketDestroyEntities {
+	repeated uint32 ids = 1;
+}
+
+message CPacketDisconnect {
+	required string reason = 1;
+}
+
+message CPacketEntityAction {
+	required uint32 id = 1;
+	optional bool sneak = 2;
+	optional bool sprinting = 3;
+	optional bool punching = 4;
+	optional int32 fire = 20;
+}
+
+message Equipment {
+	required Equipment_Slot slot = 1;
+	required PBItemStack item = 2;
+}
+
+message PBItemStack {
+	required bool present = 1;
+	optional uint32 id = 2;
+	optional uint32 stackSize = 3;
+	optional string data = 4;
+	optional uint32 durability = 5;
+}
+
+message CPacketEntityEquipment {
+	required uint32 id = 1;
+	repeated Equipment equipment = 2;
+}
+
+message PBWatchableObject {
+	required uint32 dataValueId = 1;
+	required uint32 objectType = 2;
+	optional sint32 intValue = 3;
+	optional float floatValue = 4;
+	optional string stringValue = 5;
+	optional PBVector3 vector = 6;
+	optional PBItemStack itemStack = 7;
+	optional PBBlockPos blockPos = 8;
+}
+
+message PBVector3 {
+	required sint32 x = 1;
+	required sint32 y = 2;
+	required sint32 z = 3;
+}
+
+message CPacketEntityMetadata {
+	required uint32 id = 1;
+	repeated PBWatchableObject data = 2;
+}
+
+message CPacketEntityPositionAndRotation {
+	required uint32 id = 1;
+	optional PBVector3 pos = 2;
+	optional PBVector3 vel = 3;
+	optional float yaw = 4;
+	optional float pitch = 5;
+	optional bool onGround = 6;
+}
+
+message CPacketEntityRelativePositionAndRotation {
+	required uint32 id = 1;
+	optional PBVector3 pos = 2;
+	optional PBVector3 vel = 3;
+	optional sint32 yaw = 4;
+	optional sint32 pitch = 5;
+	optional bool onGround = 6;
+}
+
+message CPacketEntityStatus {
+	required uint32 entityId = 1;
+	required int32 entityStatus = 2;
+}
+
+message PBFloatVector3 {
+	required float x = 1;
+	required float y = 2;
+	required float z = 3;
+}
+
+message CPacketEntityVelocity {
+	required uint32 id = 1;
+	required PBFloatVector3 motion = 2;
+}
+
+message CPacketExplosion {
+	required PBFloatVector3 pos = 1;
+	required float strength = 2;
+	repeated PBBlockPos blocks = 3;
+	required PBFloatVector3 playerPos = 4;
+}
+
+message PBCosmetics {
+	optional string skin = 1;
+	optional string cape = 2;
+	optional string aura = 3;
+	optional string trail = 4;
+	optional string color = 5;
+	optional string hat = 6;
+}
+
+message CPacketServerInfo {
+	required string server_id = 1;
+	required string server_name = 2;
+	required string server_version = 3;
+	required string server_category = 4;
+	required string access_control = 5;
+	optional string invite_code = 6;
+	optional string cheats = 7;
+	optional bool pvp_enabled = 8;
+	required uint64 start_time = 9;
+	repeated PlayerPermissionEntry player_permission_entries = 10;
+	required string world_type = 11;
+	optional string metadata = 12;
+	optional bool do_daylight_cycle = 13;
+	optional bool command_blocks_enabled = 14;
+}
+
+message PlayerPermissionEntry {
+	required string uuid = 1;
+	required string username = 2;
+	required int32 permission_level = 3;
+	optional string color = 4;
+	optional string rank = 5;
+	optional uint32 level = 6;
+	optional bool verified = 7;
+}
+
+message CPacketJoinGame {
+	required bool can_connect = 1;
+	optional string error_message = 2;
+	optional int32 tick = 3;
+	optional string gamemode = 6;
+	optional string name = 7;
+	optional bool enable_player_collision = 10;
+	optional PBCosmetics cosmetics = 11;
+	optional string rank = 12;
+	optional CPacketServerInfo server_info = 13;
+	optional string uuid = 14;
+	optional int32 dimension = 15;
+}
+
+message CPacketLeaderboard {
+	required string id = 1;
+	required PBVector3 pos = 2;
+	optional float yaw = 3;
+	required string title = 4;
+	repeated string content = 5;
+}
+
+message CPacketLocalStorage {
+	required CPacketLocalStorage_Action action = 1;
+	required string key = 2;
+	optional string value = 3;
+}
+
+message CPacketMessage {
+	optional string text = 1;
+	optional string id = 3;
+	optional string color = 4;
+	optional bool discard = 5;
+	optional bool toast = 6;
+	optional int32 timer = 7;
+}
+
+message CPacketOpenWindow {
+	required int32 windowId = 1;
+	required string guiID = 2;
+	optional string title = 3;
+	optional int32 size = 4;
+}
+
+message CPacketParticles {
+	required int32 particleId = 1;
+	optional bool longDistance = 2;
+	optional float x = 3;
+	optional float y = 4;
+	optional float z = 5;
+	optional float xOffset = 6;
+	optional float yOffset = 7;
+	optional float zOffset = 8;
+	optional float speed = 9;
+	optional int32 count = 10;
+	repeated int32 particleArguments = 11;
+}
+
+message PlayerData {
+	required uint32 id = 1;
+	optional uint32 ping = 2;
+	optional string name = 4;
+	optional string color = 5;
+	optional string rank = 6;
+	optional uint32 level = 7;
+	optional bool verified = 8;
+	required string uuid = 9;
+	required int32 permission_level = 10;
+}
+
+message CPacketPlayerList {
+	repeated PlayerData players = 1;
+}
+
+message CPacketPlayerPosition {
+	required float x = 1;
+	required float y = 2;
+	required float z = 3;
+}
+
+message CPacketPlayerPosLook {
+	required float x = 1;
+	required float y = 2;
+	required float z = 3;
+	required float yaw = 4;
+	required float pitch = 5;
+}
+
+message CPacketPlayerReconciliation {
+	required float x = 1;
+	required float y = 2;
+	required float z = 3;
+	required float yaw = 4;
+	required float pitch = 5;
+	required uint32 lastProcessedInput = 6;
+	optional bool reset = 7;
+	optional uint32 ackId = 8;
+	optional bool onGround = 9;
+}
+
+message CPacketPong {
+	required uint64 time = 1;
+	required float mspt = 2;
+	required uint32 tick = 4;
+}
+
+message CPacketRespawn {
+	optional bool notDeath = 1;
+	optional bool client = 2;
+	optional int32 dimension = 3;
+}
+
+message ScoreboardContent {
+	repeated string columns = 1;
+}
+
+message CPacketScoreboard {
+	required string title = 1;
+	repeated ScoreboardContent content = 2;
+}
+
+message CPacketSetSlot {
+	required int32 window_id = 1;
+	required int32 slot = 2;
+	required PBItemStack slot_data = 3;
+}
+
+message CPacketSignEditorOpen {
+	required PBBlockPos signPosition = 1;
+}
+
+message CPacketSoundEffect {
+	required string sound = 1;
+	optional PBVector3 location = 2;
+	optional float volume = 3;
+	optional float pitch = 4;
+}
+
+message CPacketSpawnEntity {
+	required uint32 id = 1;
+	required uint32 type = 2;
+	optional PBVector3 pos = 3;
+	optional float yaw = 4;
+	optional float pitch = 5;
+	optional PBFloatVector3 motion = 6;
+	optional PBItemStack item = 7;
+	optional uint32 shooterId = 8;
+	optional int32 state = 9;
+	optional string texture = 10;
+}
+
+message CPacketSpawnPlayer {
+	required uint32 id = 1;
+	required string name = 2;
+	required string gamemode = 3;
+	optional bool operator = 4;
+	required PBFloatVector3 pos = 5;
+	required float yaw = 6;
+	required float pitch = 7;
+	required PBCosmetics cosmetics = 8;
+	optional string rank = 9;
+	required string socketId = 10;
+}
+
+message CPacketTabComplete {
+	repeated string matches = 1;
+}
+
+message CPacketTitle {
+	required string title = 1;
+	required uint32 duration = 2;
+}
+
+message CPacketUpdate {
+	required uint32 tick = 4;
+	required uint64 t = 5;
+	required float mspt = 6;
+}
+
+message CPacketUpdateHealth {
+	required uint32 id = 1;
+	optional float hp = 2;
+	optional int32 food = 3;
+	optional float foodSaturation = 4;
+	optional float oxygen = 5;
+}
+
+message CPacketUpdateLeaderboard {
+	required string id = 1;
+	repeated string content = 5;
+}
+
+message CPacketUpdateScoreboard {
+	required uint32 index = 1;
+	repeated string columns = 2;
+}
+
+message CPacketUpdateSign {
+	required PBBlockPos pos = 1;
+	repeated string lines = 2;
+}
+
+message CPacketUpdateStatus {
+	required uint32 id = 1;
+	optional string mode = 2;
+	optional string rank = 4;
+	optional string color = 5;
+	optional bool hidePlayers = 6;
+}
+
+message CPacketWindowItems {
+	required uint32 window_id = 1;
+	repeated PBItemStack items = 2;
+}
+
+message CPacketWindowProperty {
+	required uint32 windowId = 1;
+	required uint32 varIndex = 2;
+	required int32 varValue = 3;
+}
+
+message CPacketUseBed {
+	required uint32 id = 1;
+	required PBBlockPos bedPos = 2;
+}
+
+message CPacketQueueNext {
+	required string minigameId = 1;
+	required string minigameConfig = 2;
+}
+
+message CPacketSpawnExperienceOrb {
+	required uint32 id = 1;
+	required sint32 x = 2;
+	required sint32 y = 3;
+	required sint32 z = 4;
+	required uint32 xpValue = 5;
+}
+
+message CPacketSetExperience {
+	required float experience = 1;
+	required int32 experienceTotal = 2;
+	required int32 level = 3;
+}
+
+message CPacketOpenShop {
+	required string type = 1;
+}
+
+message CPacketShopProperty {
+	optional string name = 1;
+	optional string value = 2;
+}
+
+message CPacketShopProperties {
+	repeated CPacketShopProperty properties = 1;
+}
+
+message PBSnapshot {
+	required string id = 1;
+	required float value = 2;
+	repeated PBModifier modifiers = 3;
+}
+
+message PBModifier {
+	required string id = 1;
+	required float amount = 2;
+	required uint32 operation = 3;
+}
+
+message CPacketEntityProperties {
+	required uint32 id = 1;
+	repeated PBSnapshot data = 2;
+}
+
+message CPacketEntityEffect {
+	required uint32 id = 1;
+	required uint32 effectId = 2;
+	required uint32 amplifier = 3;
+	required uint32 duration = 4;
+	required bool hideParticles = 5;
+}
+
+message CPacketRemoveEntityEffect {
+	required uint32 id = 1;
+	required uint32 effectId = 2;
+}
+
+message CPacketUpdateCommandBlock {
+	required PBBlockPos pos = 1;
+	optional string command = 2;
+	repeated string commands = 3;
+	optional int32 repeat = 4;
+}
+
+message CPacketEntityAttach {
+	required uint32 leash = 1;
+	required uint32 entity = 2;
+	required sint32 vehicle = 3;
+}
+
+message CPacketServerMetadata {
+	required string metadata = 12;
+}
+
+message CPacketTimeUpdate {
+	required uint32 totalTime = 1;
+	required uint32 worldTime = 2;
+}
+
+message ClientBoundCombined {
+	repeated CPacket packets = 1;
+
+	message CPacket {
+		oneof packet {
+				CPacketAnimation CPacketAnimation = 1;
+				CPacketBlockAction CPacketBlockAction = 2;
+				CPacketBlockUpdate CPacketBlockUpdate = 3;
+				CPacketChangeServers CPacketChangeServers = 4;
+				CPacketChunkData CPacketChunkData = 5;
+				CPacketCloseWindow CPacketCloseWindow = 6;
+				CPacketConfirmTransaction CPacketConfirmTransaction = 7;
+				CPacketDestroyEntities CPacketDestroyEntities = 8;
+				CPacketDisconnect CPacketDisconnect = 9;
+				CPacketEntityAction CPacketEntityAction = 10;
+				CPacketEntityEffect CPacketEntityEffect = 11;
+				CPacketEntityEquipment CPacketEntityEquipment = 12;
+				CPacketEntityMetadata CPacketEntityMetadata = 13;
+				CPacketEntityPositionAndRotation CPacketEntityPositionAndRotation = 14;
+				CPacketEntityProperties CPacketEntityProperties = 15;
+				CPacketEntityRelativePositionAndRotation CPacketEntityRelativePositionAndRotation = 16;
+				CPacketEntityStatus CPacketEntityStatus = 17;
+				CPacketEntityVelocity CPacketEntityVelocity = 18;
+				CPacketExplosion CPacketExplosion = 19;
+				CPacketJoinGame CPacketJoinGame = 20;
+				CPacketLeaderboard CPacketLeaderboard = 21;
+				CPacketLocalStorage CPacketLocalStorage = 22;
+				CPacketMessage CPacketMessage = 23;
+				CPacketOpenShop CPacketOpenShop = 24;
+				CPacketOpenWindow CPacketOpenWindow = 25;
+				CPacketParticles CPacketParticles = 26;
+				CPacketPlayerList CPacketPlayerList = 27;
+				CPacketPlayerPosLook CPacketPlayerPosLook = 28;
+				CPacketPlayerPosition CPacketPlayerPosition = 29;
+				CPacketPong CPacketPong = 30;
+				CPacketQueueNext CPacketQueueNext = 31;
+				CPacketRemoveEntityEffect CPacketRemoveEntityEffect = 32;
+				CPacketRespawn CPacketRespawn = 33;
+				CPacketScoreboard CPacketScoreboard = 34;
+				CPacketServerInfo CPacketServerInfo = 35;
+				CPacketSetExperience CPacketSetExperience = 36;
+				CPacketSetSlot CPacketSetSlot = 37;
+				CPacketShopProperties CPacketShopProperties = 38;
+				CPacketSignEditorOpen CPacketSignEditorOpen = 39;
+				CPacketSoundEffect CPacketSoundEffect = 40;
+				CPacketSpawnEntity CPacketSpawnEntity = 41;
+				CPacketSpawnExperienceOrb CPacketSpawnExperienceOrb = 42;
+				CPacketSpawnPlayer CPacketSpawnPlayer = 43;
+				CPacketTabComplete CPacketTabComplete = 44;
+				CPacketTitle CPacketTitle = 45;
+				CPacketUpdateCommandBlock CPacketUpdateCommandBlock = 46;
+				CPacketUpdateHealth CPacketUpdateHealth = 47;
+				CPacketUpdateLeaderboard CPacketUpdateLeaderboard = 48;
+				CPacketUpdateScoreboard CPacketUpdateScoreboard = 49;
+				CPacketUpdateSign CPacketUpdateSign = 50;
+				CPacketUpdateStatus CPacketUpdateStatus = 51;
+				CPacketUseBed CPacketUseBed = 52;
+				CPacketWindowItems CPacketWindowItems = 53;
+				CPacketWindowProperty CPacketWindowProperty = 54;
+				CPacketEntityAttach CPacketEntityAttach = 55;
+				CPacketServerMetadata CPacketServerMetadata = 56;
+				CPacketTimeUpdate CPacketTimeUpdate = 57;
+				CPacketPlayerReconciliation CPacketPlayerReconciliation = 58;
+		}
+}
+
+}
+
+message KickPlayer {
+	required string uuid = 1;
+}
+
+message BanPlayer {
+	required string uuid = 1;
+}
+
+message StopServer {
+}
+
+message PromotePlayer {
+	required string uuid = 1;
+}
+
+message DemotePlayer {
+	required string uuid = 1;
+}
+
+message UpdateAccessControl {
+	required string accessControl = 1;
+}
+
+message UpdateCheats {
+	required string cheats = 1;
+}
+
+message UpdatePvP {
+	required bool enabled = 1;
+}
+
+message UnbanPlayer {
+	required string uuid = 1;
+}
+
+message UpdateCommandBlock {
+	required bool enabled = 1;
+}
+
+message SPacketAdminAction {
+	oneof action {
+		KickPlayer kick_player = 1;
+		BanPlayer ban_player = 2;
+		StopServer stop_server = 3;
+		PromotePlayer promote_player = 4;
+		DemotePlayer demote_player = 5;
+		UpdateAccessControl update_access_control = 6;
+		UpdateCheats update_cheats = 7;
+		UpdatePvP update_pvp = 8;
+		UnbanPlayer unban_player = 9;
+		UpdateCommandBlock update_command_block = 10;
+	}
+}
+
+message SPacketAnalytics {
+	required float fps = 1;
+	required float ping = 2;
+}
+
+message SPacketClickWindow {
+	required int32 windowId = 1;
+	required int32 slotId = 2;
+	required int32 button = 4;
+	required int32 mode = 5;
+	required PBItemStack itemStack = 6;
+	required int32 transactionId = 7;
+}
+
+message SPacketCloseWindow {
+	required int32 windowId = 1;
+}
+
+message SPacketConfirmTransaction {
+	required int32 windowId = 1;
+	required int32 actionNumber = 2;
+	required bool accepted = 3;
+}
+
+message SPacketEnchantItem {
+	required int32 windowId = 1;
+	required int32 button = 2;
+}
+
+message SPacketEntityAction {
+	required int32 id = 1;
+	optional bool sneak = 2;
+	optional bool sprinting = 3;
+	optional bool punching = 4;
+	optional float daJVioIgKr = 5;
+	optional float IqGlizJqyf = 6;
+	optional int32 fire = 20;
+	optional bool stopSleeping = 21;
+}
+
+message SPacketHeldItemChange {
+	required int32 slot = 1;
+}
+
+message SPacketLoginStart {
+	optional string session = 1;
+	optional string hydration = 2;
+	required string metrics_id = 3;
+	optional string requested_uuid = 4;
+	required string client_version = 5;
+}
+
+message SPacketMessage {
+	required string text = 1;
+}
+
+message SPacketOpenShop {
+}
+
+message SPacketPing {
+	required uint64 time = 1;
+}
+
+message SPacketPlayerAbilities {
+	optional bool isFlying = 1;
+}
+
+message SPacketPlayerAction {
+	required PBBlockPos position = 1;
+	required PBEnumFacing facing = 2;
+	required PBAction action = 3;
+}
+
+message Vector3 {
+	required float x = 1;
+	required float y = 2;
+	required float z = 3;
+}
+
+message SPacketPlayerPosLook {
+	optional Vector3 pos = 1;
+	optional float yaw = 2;
+	optional float pitch = 3;
+	required bool onGround = 4;
+}
+
+message SPacketRespawn {
+}
+
+message SPacketTabComplete {
+	required string message = 1;
+}
+
+message SPacketUpdateSign {
+	required PBBlockPos pos = 1;
+	repeated string lines = 2;
+}
+
+message SPacketUseEntity {
+	required uint32 id = 1;
+	required SPacketUseEntity_Action action = 2;
+	optional PBFloatVector3 hitVec = 3;
+	optional float yaw = 4;
+	optional float pitch = 5;
+	optional uint32 sequence = 6;
+}
+
+message SPacketUpdateCommandBlock {
+	required PBBlockPos pos = 1;
+	optional string command = 2;
+	repeated string commands = 3;
+	optional int32 repeat = 4;
+}
+
+message SPacketQueueNext {
+}
+
+message SPacketPlayerInput {
+	required uint32 sequenceNumber = 1;
+	required bool left = 2;
+	required bool right = 3;
+	required bool up = 4;
+	required bool down = 5;
+	required float yaw = 6;
+	required float pitch = 7;
+	required bool jump = 8;
+	required bool sneak = 9;
+	required bool sprint = 10;
+	required PBFloatVector3 pos = 11;
+	optional uint32 ackId = 12;
+	optional bool onGround = 13;
+	optional bool usingItem = 14;
+}
+
+message SPacketBreakBlock {
+	required PBBlockPos location = 1;
+	optional bool start = 2;
+}
+
+message SPacketClick {
+	optional PBBlockPos location = 1;
+}
+
+message SPacketCraftItem {
+	required string data = 1;
+}
+
+message SPacketPlaceBlock {
+	required PBBlockPos positionIn = 1;
+	required PBEnumFacing side = 2;
+	required float hitX = 4;
+	required float hitY = 5;
+	required float hitZ = 6;
+}
+
+message SPacketRequestChunk {
+	required int32 x = 1;
+	required int32 z = 2;
+}
+
+message SPacketUpdateInventory {
+	repeated PBItemStack main = 1;
+	repeated PBItemStack armor = 2;
+	required PBItemStack idkWhatThisIs = 3;
+}
+
+message SPacketUseItem {
+}
+

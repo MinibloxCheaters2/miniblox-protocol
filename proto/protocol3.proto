@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+message PBCell {
+	uint32 bitsPerEntry = 2;
+	repeated uint32 palette = 3;
+	uint32 blockRefCount = 5;
+	bytes bitArray = 6;
+	uint32 y = 7;
+}
+
+message PBTileEntity {
+	sint32 x = 1;
+	uint32 y = 2;
+	sint32 z = 3;
+	bytes nbt = 5;
+}
+
+message CPacketChunkData {
+	sint32 x = 1;
+	sint32 z = 2;
+	repeated PBCell cells = 3;
+	repeated PBTileEntity tileEntities = 4;
+	int32 dimension = 5;
+	repeated uint32 biomes = 6;
+}
+

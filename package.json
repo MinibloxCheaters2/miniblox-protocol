@@ -1,0 +1,31 @@
+{
+  "name": "@miniblox/protocol",
+  "version": "3.42.3-0.0.0",
+  "main": "dist/index.mjs",
+  "type": "module",
+  "packageManager": "bun@1.3.4",
+  "readme": "ReadME.md",
+  "scripts": {
+    "build:proto": "buf generate",
+    "build:js": "tsdown",
+    "build": "bun run build:proto && bun run build:js",
+    "prepublishOnly": "bun run build"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "files": [
+    "dist",
+    "ReadME.md"
+  ],
+  "dependencies": {
+    "@bufbuild/buf": "^1.70.0",
+    "@bufbuild/protobuf": "^1.10.1"
+  },
+  "devDependencies": {
+    "@bufbuild/protoc-gen-es": "^1.10.1",
+    "@msgpack/msgpack": "^3.1.3",
+    "tsdown": "0.22.2"
+  }
+}
