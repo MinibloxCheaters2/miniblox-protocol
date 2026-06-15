@@ -97,6 +97,8 @@ import {
   CPacketScriptData,
   CPacketScriptLog,
   SPacketScriptAction,
+  CPacketPlotsData,
+  SPacketPlotsAction,
 } from "../gen/protocol2_pb.js";
 import { CPacketChunkData } from "../gen/protocol3_pb.js";
 
@@ -163,6 +165,7 @@ export const CPACKET_MAP = {
   ClientBoundCombined,
   CPacketScriptData,
   CPacketScriptLog,
+  CPacketPlotsData,
 } as const;
 
 export const SPACKET_MAP = {
@@ -182,7 +185,7 @@ export const SPACKET_MAP = {
   SPacketPlayerAction,
   SPacketPlayerPosLook,
   SPacketRespawn,
-  SPacketTabComplete,
+  SPacketTabComplete: SPacketTabComplete,
   SPacketUpdateSign,
   SPacketUseEntity,
   SPacketUpdateCommandBlock,
@@ -196,6 +199,7 @@ export const SPACKET_MAP = {
   SPacketUpdateInventory,
   SPacketUseItem,
   SPacketScriptAction,
+  SPacketPlotsAction,
 } as const;
 
 type AnyPacketMap = typeof CPACKET_MAP & typeof SPACKET_MAP;
@@ -204,23 +208,38 @@ export const NAME_TO_ID: Record<string, number> = {};
 export const ID_TO_PACKET: Record<string, PlainMessage<Message>> = {};
 export const ID_TO_NAME: Record<number, keyof AnyPacketMap> = {};
 
+export const APPENDED_PACKETS = {
+  CPacketScriptData,
+  CPacketScriptLog,
+  SPacketScriptAction,
+  CPacketPlotsData,
+  SPacketPlotsAction,
+};
+
+let currentId = 0;
+
+function assignPacketId<K extends keyof AnyPacketMap>(
+  name: K,
+  packet: AnyPacketMap[K],
+) {
+  NAME_TO_ID[name] = currentId;
+  ID_TO_PACKET[currentId] = packet;
+  ID_TO_NAME[currentId] = name;
+  currentId++;
+}
+
 function fixedEntries<K extends string | number | symbol, V>(
   x: Record<K, V>,
 ): [K, V][] {
   return Object.entries(x) as [K, V][]; // holy who wrote these typings LOL, there should be an extra type parameter for the key :sob:
 }
 
-let currentId = 0;
 for (const [i, v] of fixedEntries(CPACKET_MAP)) {
-  NAME_TO_ID[i] = currentId;
-  ID_TO_PACKET[currentId] = v;
-  ID_TO_NAME[currentId] = i;
-  currentId++;
+  if (!(i in APPENDED_PACKETS)) assignPacketId(i, v);
 }
 
 for (const [i, v] of fixedEntries(SPACKET_MAP)) {
-  NAME_TO_ID[i] = currentId;
-  ID_TO_PACKET[currentId] = v;
-  ID_TO_NAME[currentId] = i;
-  currentId++;
+  if (!(i in APPENDED_PACKETS)) assignPacketId(i, v);
 }
+
+for (const [i, v] of fixedEntries(APPENDED_PACKETS)) assignPacketId(i, v);
