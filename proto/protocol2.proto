@@ -513,6 +513,10 @@ message PBScriptLogEntry {
 	optional uint64 timestamp = 5;
 }
 
+message CPacketPlotsData {
+	required string json = 1;
+}
+
 message ClientBoundCombined {
 	repeated CPacket packets = 1;
 
@@ -578,6 +582,7 @@ message ClientBoundCombined {
 				CPacketPlayerReconciliation CPacketPlayerReconciliation = 58;
 				CPacketScriptData CPacketScriptData = 59;
 				CPacketScriptLog CPacketScriptLog = 60;
+				CPacketPlotsData CPacketPlotsData = 61;
 		}
 }
 
@@ -676,8 +681,8 @@ message SPacketEntityAction {
 	optional bool sneak = 2;
 	optional bool sprinting = 3;
 	optional bool punching = 4;
-	optional float PQeKgVMnct = 5;
-	optional float OyLnqYcJaP = 6;
+	optional float KawctgZbnn = 5;
+	optional float WuJlUXrsNF = 6;
 	optional int32 fire = 20;
 	optional bool stopSleeping = 21;
 }
@@ -839,5 +844,9 @@ message SPacketScriptAction {
 		ScriptSetEnabled set_enabled = 4;
 		ScriptGetLogs get_logs = 5;
 	}
+}
+
+message SPacketPlotsAction {
+	required string json = 1;
 }
 
