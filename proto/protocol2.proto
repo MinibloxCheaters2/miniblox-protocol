@@ -163,6 +163,7 @@ message CPacketServerInfo {
 	optional string metadata = 12;
 	optional bool do_daylight_cycle = 13;
 	optional bool command_blocks_enabled = 14;
+	optional bool scripting_enabled = 15;
 }
 
 message PlayerPermissionEntry {
@@ -485,6 +486,33 @@ message CPacketTimeUpdate {
 	required uint32 worldTime = 2;
 }
 
+message CPacketScriptData {
+	required bool enabled = 1;
+	optional string disabled_reason = 2;
+	repeated PBScriptEntry scripts = 3;
+	optional bool read_only = 4;
+}
+
+message PBScriptEntry {
+	required string name = 1;
+	required string source = 2;
+	optional uint64 updated_at = 3;
+	optional string updated_by = 4;
+	optional string load_error = 5;
+}
+
+message CPacketScriptLog {
+	repeated PBScriptLogEntry entries = 1;
+}
+
+message PBScriptLogEntry {
+	required string level = 1;
+	required string message = 2;
+	optional string stack = 3;
+	optional uint64 tick = 4;
+	optional uint64 timestamp = 5;
+}
+
 message ClientBoundCombined {
 	repeated CPacket packets = 1;
 
@@ -548,6 +576,8 @@ message ClientBoundCombined {
 				CPacketServerMetadata CPacketServerMetadata = 56;
 				CPacketTimeUpdate CPacketTimeUpdate = 57;
 				CPacketPlayerReconciliation CPacketPlayerReconciliation = 58;
+				CPacketScriptData CPacketScriptData = 59;
+				CPacketScriptLog CPacketScriptLog = 60;
 		}
 }
 
@@ -592,6 +622,10 @@ message UpdateCommandBlock {
 	required bool enabled = 1;
 }
 
+message UpdateScripting {
+	required bool enabled = 1;
+}
+
 message SPacketAdminAction {
 	oneof action {
 		KickPlayer kick_player = 1;
@@ -604,6 +638,7 @@ message SPacketAdminAction {
 		UpdatePvP update_pvp = 8;
 		UnbanPlayer unban_player = 9;
 		UpdateCommandBlock update_command_block = 10;
+		UpdateScripting update_scripting = 11;
 	}
 }
 
@@ -641,8 +676,8 @@ message SPacketEntityAction {
 	optional bool sneak = 2;
 	optional bool sprinting = 3;
 	optional bool punching = 4;
-	optional float daJVioIgKr = 5;
-	optional float IqGlizJqyf = 6;
+	optional float PQeKgVMnct = 5;
+	optional float OyLnqYcJaP = 6;
 	optional int32 fire = 20;
 	optional bool stopSleeping = 21;
 }
@@ -657,6 +692,7 @@ message SPacketLoginStart {
 	required string metrics_id = 3;
 	optional string requested_uuid = 4;
 	required string client_version = 5;
+	optional string language = 6;
 }
 
 message SPacketMessage {
@@ -774,5 +810,34 @@ message SPacketUpdateInventory {
 }
 
 message SPacketUseItem {
+}
+
+message ScriptList {
+}
+
+message ScriptSave {
+	required string name = 1;
+	required string source = 2;
+}
+
+message ScriptDelete {
+	required string name = 1;
+}
+
+message ScriptSetEnabled {
+	required bool enabled = 1;
+}
+
+message ScriptGetLogs {
+}
+
+message SPacketScriptAction {
+	oneof action {
+		ScriptList list = 1;
+		ScriptSave save = 2;
+		ScriptDelete delete = 3;
+		ScriptSetEnabled set_enabled = 4;
+		ScriptGetLogs get_logs = 5;
+	}
 }
 
