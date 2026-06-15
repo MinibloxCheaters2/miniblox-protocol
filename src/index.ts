@@ -94,6 +94,9 @@ import {
   SPacketUpdateSign,
   SPacketUseEntity,
   SPacketUseItem,
+  CPacketScriptData,
+  CPacketScriptLog,
+  SPacketScriptAction,
 } from "../gen/protocol2_pb.js";
 import { CPacketChunkData } from "../gen/protocol3_pb.js";
 
@@ -158,6 +161,8 @@ export const CPACKET_MAP = {
   CPacketServerMetadata,
   CPacketTimeUpdate,
   ClientBoundCombined,
+  CPacketScriptData,
+  CPacketScriptLog,
 } as const;
 
 export const SPACKET_MAP = {
@@ -177,7 +182,7 @@ export const SPACKET_MAP = {
   SPacketPlayerAction,
   SPacketPlayerPosLook,
   SPacketRespawn,
-  SPacketTabComplete: SPacketTabComplete,
+  SPacketTabComplete,
   SPacketUpdateSign,
   SPacketUseEntity,
   SPacketUpdateCommandBlock,
@@ -190,6 +195,7 @@ export const SPACKET_MAP = {
   SPacketRequestChunk,
   SPacketUpdateInventory,
   SPacketUseItem,
+  SPacketScriptAction,
 } as const;
 
 type AnyPacketMap = typeof CPACKET_MAP & typeof SPACKET_MAP;
