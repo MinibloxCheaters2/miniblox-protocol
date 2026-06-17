@@ -22,5 +22,12 @@ message CPacketChunkData {
 	repeated PBTileEntity tileEntities = 4;
 	int32 dimension = 5;
 	repeated uint32 biomes = 6;
+	string hash = 7;
+}
+
+message CPacketChunkUnchanged {
+	sint32 x = 1;
+	sint32 z = 2;
+	int32 dimension = 3;
 }
 

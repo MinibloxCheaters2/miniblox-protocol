@@ -1,4 +1,5 @@
 syntax = "proto2";
+
 import "common.proto";
 import "protocol3.proto";
 
@@ -517,6 +518,11 @@ message CPacketPlotsData {
 	required string json = 1;
 }
 
+message CPacketUpdatePlayerHead {
+	required PBBlockPos pos = 1;
+	required string owner = 2;
+}
+
 message ClientBoundCombined {
 	repeated CPacket packets = 1;
 
@@ -583,6 +589,8 @@ message ClientBoundCombined {
 				CPacketScriptData CPacketScriptData = 59;
 				CPacketScriptLog CPacketScriptLog = 60;
 				CPacketPlotsData CPacketPlotsData = 61;
+				CPacketUpdatePlayerHead CPacketUpdatePlayerHead = 62;
+				CPacketChunkUnchanged CPacketChunkUnchanged = 63;
 		}
 }
 
@@ -681,8 +689,8 @@ message SPacketEntityAction {
 	optional bool sneak = 2;
 	optional bool sprinting = 3;
 	optional bool punching = 4;
-	optional float KawctgZbnn = 5;
-	optional float WuJlUXrsNF = 6;
+	optional float LAeRWzaOTR = 5;
+	optional float olctlxWOUgo = 6;
 	optional int32 fire = 20;
 	optional bool stopSleeping = 21;
 }
@@ -806,6 +814,7 @@ message SPacketPlaceBlock {
 message SPacketRequestChunk {
 	required int32 x = 1;
 	required int32 z = 2;
+	optional string cachedHash = 3;
 }
 
 message SPacketUpdateInventory {
@@ -836,6 +845,11 @@ message ScriptSetEnabled {
 message ScriptGetLogs {
 }
 
+message ScriptRename {
+	required string name = 1;
+	required string new_name = 2;
+}
+
 message SPacketScriptAction {
 	oneof action {
 		ScriptList list = 1;
@@ -843,6 +857,7 @@ message SPacketScriptAction {
 		ScriptDelete delete = 3;
 		ScriptSetEnabled set_enabled = 4;
 		ScriptGetLogs get_logs = 5;
+		ScriptRename rename = 6;
 	}
 }
 
