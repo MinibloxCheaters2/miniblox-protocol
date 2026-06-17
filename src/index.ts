@@ -99,8 +99,12 @@ import {
   SPacketScriptAction,
   CPacketPlotsData,
   SPacketPlotsAction,
+  CPacketUpdatePlayerHead,
 } from "../gen/protocol2_pb.js";
-import { CPacketChunkData } from "../gen/protocol3_pb.js";
+import {
+  CPacketChunkData,
+  CPacketChunkUnchanged,
+} from "../gen/protocol3_pb.js";
 
 export const CPACKET_MAP = {
   CPacketAnimation,
@@ -166,6 +170,8 @@ export const CPACKET_MAP = {
   CPacketScriptData,
   CPacketScriptLog,
   CPacketPlotsData,
+  CPacketUpdatePlayerHead,
+  CPacketChunkUnchanged,
 } as const;
 
 export const SPACKET_MAP = {
@@ -185,7 +191,7 @@ export const SPACKET_MAP = {
   SPacketPlayerAction,
   SPacketPlayerPosLook,
   SPacketRespawn,
-  SPacketTabComplete: SPacketTabComplete,
+  SPacketTabComplete,
   SPacketUpdateSign,
   SPacketUseEntity,
   SPacketUpdateCommandBlock,
@@ -214,6 +220,8 @@ export const APPENDED_PACKETS = {
   SPacketScriptAction,
   CPacketPlotsData,
   SPacketPlotsAction,
+  CPacketUpdatePlayerHead,
+  CPacketChunkUnchanged,
 };
 
 let currentId = 0;
